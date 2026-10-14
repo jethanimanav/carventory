@@ -3,9 +3,11 @@ const { body, validationResult } = require('express-validator');
 const {
   registerUser,
   loginUser,
-  getUserProfile
+  getUserProfile,
+  getUserArea,
+  getAdminArea
 } = require('../controllers/userController');
-const authMiddleware = require('../middleware/authMiddleware');
+const { authMiddleware, authorizeRoles } = require('../middleware/authMiddleware');
 
 const router = express.Router();
 
@@ -33,5 +35,9 @@ const validateRegistration = [
 router.post('/register', validateRegistration, registerUser);
 router.post('/login', loginUser);
 router.get('/profile', authMiddleware, getUserProfile);
+
+// Experiment 6: Role-Based Authorization Demonstration Routes
+router.get('/user-area', authMiddleware, authorizeRoles('user', 'admin'), getUserArea);
+router.get('/admin-area', authMiddleware, authorizeRoles('admin'), getAdminArea);
 
 module.exports = router;

@@ -22,12 +22,12 @@ const registerUser = async (req, res, next) => {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    // Create user in MongoDB
+    // Create user in MongoDB (Public registration strictly creates standard 'user' role)
     const user = await User.create({
       name,
       email: email.toLowerCase(),
       password: hashedPassword,
-      role: role && ['user', 'admin'].includes(role) ? role : 'user'
+      role: 'user'
     });
 
     // Return successful registration response without password
@@ -132,8 +132,38 @@ const getUserProfile = async (req, res, next) => {
   }
 };
 
+// @desc    User area demonstration route (Protected)
+// @route   GET /api/users/user-area
+// @access  Private (User & Admin)
+const getUserArea = async (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: 'Welcome to the User Area. Access granted for authenticated users and admins.',
+    user: {
+      id: req.user.id,
+      role: req.user.role
+    }
+  });
+};
+
+// @desc    Admin area demonstration route (Protected)
+// @route   GET /api/users/admin-area
+// @access  Private (Admin only)
+const getAdminArea = async (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: 'Welcome to the Admin Area. Access granted for admin users only.',
+    user: {
+      id: req.user.id,
+      role: req.user.role
+    }
+  });
+};
+
 module.exports = {
   registerUser,
   loginUser,
-  getUserProfile
+  getUserProfile,
+  getUserArea,
+  getAdminArea
 };

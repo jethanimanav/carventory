@@ -37,4 +37,20 @@ const authMiddleware = (req, res, next) => {
   }
 };
 
+// Middleware to authorize specific user roles (Experiment 6)
+const authorizeRoles = (...roles) => {
+  return (req, res, next) => {
+    if (!req.user || !roles.includes(req.user.role)) {
+      return res.status(403).json({
+        success: false,
+        message: 'Access denied. You do not have permission to access this resource.'
+      });
+    }
+    next();
+  };
+};
+
+authMiddleware.authMiddleware = authMiddleware;
+authMiddleware.authorizeRoles = authorizeRoles;
+
 module.exports = authMiddleware;
