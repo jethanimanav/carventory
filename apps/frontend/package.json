@@ -9,13 +9,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@vitejs/plugin-react": "latest",
     "@tailwindcss/vite": "latest",
+    "@vitejs/plugin-react": "latest",
     "react": "latest",
     "react-dom": "latest",
     "react-router-dom": "latest",
+    "socket.io-client": "^4.8.4",
     "tailwindcss": "latest",
     "vite": "latest"
-  },
-  "devDependencies": {}
+  }
 }

@@ -12,6 +12,7 @@ import AdminLogin from './pages/AdminLogin'
 import AdminInventory from './pages/AdminInventory'
 import AdminEnquiries from './pages/AdminEnquiries'
 import { useAuth } from './context/AuthContext'
+import Chat from './pages/Chat'
 
 function AdminRoute({ children }) {
   const { isAuthenticated } = useAuth()
@@ -22,6 +23,7 @@ export default function App() {
   return (
     <Routes>
       <Route element={<MainLayout />}>
+	<Route path="/chat" element={<Chat />} />
         <Route path="/" element={<Home />} />
         <Route path="/cars" element={<Cars />} />
         <Route path="/cars/:carId" element={<CarDetails />} />
